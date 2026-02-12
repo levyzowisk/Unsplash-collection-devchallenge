@@ -12,7 +12,7 @@ const PhotoGrid = ({ query, collectionId }) => {
     e.preventDefault();
     e.stopPropagation();
     setSelectedPhoto(photo); // <--- Ao setar a foto, o modal vai abrir
-  };
+  };  
 
   const closeModal = () => setSelectedPhoto(null);
 

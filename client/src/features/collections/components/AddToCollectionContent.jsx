@@ -1,12 +1,25 @@
+import { useState } from "react";
 import Input from "../../../components/Input";
 import { useCollections } from "../hooks/useCollections";
 
 export function AddToCollectionContent({photo, onClose}) {
+    console.log(photo);
+    
     const texto = photo.alternative_slugs.pt;
     const ultimoTraco = (texto.lastIndexOf('-'));
     const textoLimpo = texto.substring(0, ultimoTraco);
     const textoFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1).replaceAll('-', ' ');
     
+    const [selectedIds, setSelectedIds] = useState([]);
+    
+    const toggleCollection = async (collectionId) => {
+        const isAlreadySelected = selectedIds.includes(collectionId);
+
+        let newIds;
+        if(isAlreadySelected) {
+            newIds = selectedIds.filter(id => id !== collectionId);
+        }
+    }
     const {collections, loading} = useCollections();
     if(loading) return <div>Carregando coleções...</div>;
     
@@ -29,11 +42,17 @@ export function AddToCollectionContent({photo, onClose}) {
             </div>
             <div className="pt-5 flex flex-col gap-1 flex-1">
                 {collections.map((collection) => (
-                    <div key={collection.id} className="flex gap-1 items-center  bg-gray-100 my-1 rounded px-2 py-2 hover:bg-gray-200 cursor-pointer">
+                    <div key={collection.id} className={`flex gap-1 items-center my-1 rounded px-2 py-2 ${visible ?  'bg-gray-100 hover:bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'}`}>
                         <img src={collection.cover_photo} alt="" className="h-10 rounded shadow-lg transition-colors duration-800  hover:shadow-xl"/>
-                        <div>
-                            <h4 className="font-destaque font-medium text-[15px]">{collection.title}</h4>
-                            <p className="text-[12px] text-gray-500">{collection.total_photos} fotos</p>
+                        <div className="flex justify-between items-center w-100">
+                            <div>
+                                <h4 className={`font-destaque font-medium text-[15px] ${visible ? 'text-black' : 'text-white'}`} >{collection.title}</h4>
+                                <p className={`text-[12px] ${visible ? 'text-gray-500' : 'text-white'}`}>{collection.total_photos} fotos</p>
+                            </div>
+
+                            <div className="pr-2 cursor-pointer hover:scale-110" title="Adicionar a coleção" onClick={() => setVisible(!visible)}>
+                                {visible === false ? <i class="bi bi-check-lg text-lg text-white"></i> : <i class="bi bi-plus-lg text-lg"></i>}
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -41,7 +60,6 @@ export function AddToCollectionContent({photo, onClose}) {
             
             <div className="flex justify-center">
                 <button className="flex justify-center items-center gap-2 rounded py-1 font-destaque border w-100 border-gray-300 cursor-pointer hover:bg-gray-100">
-                    <i className="bi bi-plus font-bold text-2xl"></i>
                     <p className="text-center font-medium">Criar nova coleção</p>
                 </button>
             </div>
