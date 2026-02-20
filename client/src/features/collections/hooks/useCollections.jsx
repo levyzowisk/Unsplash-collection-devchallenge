@@ -13,7 +13,7 @@ const MOCK_COLLECTIONS = [
     title: "Minimalism",
     total_photos: 45,
     cover_photo: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400&h=300&fit=crop",
-    contains_photo: false,
+    contains_photo: true,
   },
   {
     id: 3,
@@ -24,16 +24,22 @@ const MOCK_COLLECTIONS = [
   }
 ];
 
-export const useCollections = () => {
+export const useCollections = (photoId = null) => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialSelectedIds, setInitialSelectedIds] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
       setCollections(MOCK_COLLECTIONS);
+      const preSelectedIds = MOCK_COLLECTIONS
+        .filter(c => c.contains_photo)
+        .map(c => c.id);
+      
+      setInitialSelectedIds(preSelectedIds);
       setLoading(false);
     }, 500);
   }, []);
 
-  return { collections, loading };
+  return { collections, loading, initialSelectedIds };
 };
