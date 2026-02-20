@@ -1,0 +1,30 @@
+services:
+  api:
+    build: ./server
+    container_name: unsplash_api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - dev_network
+
+  web:
+    build: ./client
+    container_name: unsplash_client
+    env_file:
+      - ./client/.env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
+    driver: bridge
