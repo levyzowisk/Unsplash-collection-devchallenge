@@ -1,0 +1,17 @@
+Adicionar uma imagem a coleção:
+
+Função que buscará as coleções e como parametro será passado um id, caso essa imgem contenha naquela coleção, ela retornará uma propriedade que diga que sim ou q não.
+
+No componente que renderiza as coleções.
+
+Terei um useState que controla os ids das coleções.
+
+Logo em seguida tenho uma função que vai manipular os ids, tanto, quando for para adicionar, quanto para remover.
+
+como seria feito a ideia do controle dos ids no use state.
+
+No javascript existe uma função de array que permite verificar se o dado fornecido existe dentro desse array array.includes(id) e essa função retorna um booleano que é armazenado numa varivel, e aí é feita uma verificação se a variavel de controle for true, quer dizer que esse id, já está selecionado, se for false, ele não foi adicionado "[...previosId, id]" e aí é feita a adição do id, caso contrário, é feita a remoção do id "previosId.filter(i => i !== id)".
+
+Isso tudo dentro de uma função chamada toggleCollection, que recebe o id da coleção como parametro, e dentro dessa função é feita a manipulação do estado dos ids selecionados.
+
+Na hora de renderizar as coleções, é necessário guardar dentro do loop uma varivel que diga se a coleção atual o id dela já está no sstate de ids selecionados, a partir dessa variavel, eu consigo controllar como será a renderização do item.
