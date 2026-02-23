@@ -20,7 +20,7 @@ const MOCK_COLLECTIONS = [
     title: "Architecture",
     total_photos: 7,
     cover_photo: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=300&fit=crop",
-    contains_photo: false,
+    contains_photo: true,
   }
 ];
 
@@ -28,6 +28,13 @@ export const useCollections = (photoId = null) => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialSelectedIds, setInitialSelectedIds] = useState([]);
+
+  const newCollection = (collection) => {
+    setCollections(prev => ([
+      ...prev,
+      collection
+    ]))
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,5 +48,5 @@ export const useCollections = (photoId = null) => {
     }, 500);
   }, []);
 
-  return { collections, loading, initialSelectedIds };
+  return { collections, loading, initialSelectedIds, newCollection };
 };

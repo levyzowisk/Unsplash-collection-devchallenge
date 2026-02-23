@@ -1,6 +1,6 @@
 function Input ({placeholder, ...props}) {
     return (
-        <input placeholder={placeholder} {...props} />
+        <input placeholder={placeholder} {...props}  />
     );
 }
 

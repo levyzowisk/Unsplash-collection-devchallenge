@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 import Input from "../../../components/Input";
 import { useCollections } from "../hooks/useCollections";
+import Button from "../../../components/Button";
+import {toast} from 'react-toastify';
 
 export function AddToCollectionContent({photo, onClose}) {
     
@@ -12,11 +14,17 @@ export function AddToCollectionContent({photo, onClose}) {
     const textoFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1).replaceAll('-', ' ');
     
     const [selectedIds, setSelectedIds] = useState([]);
-    const {collections, loading, initialSelectedIds} = useCollections();
+    const {collections, loading, initialSelectedIds, newCollection} = useCollections();
     
     useEffect(() => {
             setSelectedIds(initialSelectedIds);
+            console.log(selectedIds);
+            
     }, [initialSelectedIds]);
+    useEffect(() => {
+        console.log(selectedIds);
+        
+    }, [selectedIds])
     
     const toggleCollection = async (collectionId) => {
         const isAlreadySelected = selectedIds.includes(collectionId);
@@ -24,18 +32,50 @@ export function AddToCollectionContent({photo, onClose}) {
         let newIds;
         if(isAlreadySelected) {
             newIds = selectedIds.filter(id => id !== collectionId);
+            toast.warn("Removida da coleção", {
+                theme: "colored",
+                hideProgressBar: "true",
+                autoClose: 1000,
+            });
+            
+
         } else {
             newIds = [...selectedIds, collectionId];
+            toast.success("Adiconada a coleção",{
+                theme: "colored",
+                hideProgressBar: "true",
+                autoClose: 1000,
+            });
+
         }
 
         setSelectedIds(newIds);
+        console.log(selectedIds);
+        
     }
+
+    const [showNewCollection, setShowNewCollection] = useState(false);
+    
+    const [search, setSearch] = useState("");
+
+    const createCollection = (e) => {
+        e.preventDefault();
+        newCollection({
+            title: search,
+            total_photos: 10, 
+            cover_photo: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=300&fit=crop",
+            contains_photo: false,
+        })
+        setShowNewCollection(false);
+        toast.success("Coleção criada");
+        setSearch("");
+    };
+    
     if(loading) return <div>Carregando coleções...</div>;
     
     return (
         <div className="flex flex-col h-full">
             <h1 className="font-destaque font-semibold text-xl pb-2">Adicionar à coleção</h1>
-            
             <section className="p-2 flex bg-gray-100 gap-2 rounded text-sm">
             <img src={photo.urls.thumb} className="w-20 rounded" />
             <div>
@@ -52,9 +92,7 @@ export function AddToCollectionContent({photo, onClose}) {
             <div className="pt-5 flex flex-col gap-1 flex-1">
                 {collections.map((collection) => {
                     const isSelect = selectedIds.includes(collection.id);
-                    console.log(isSelect);
                     
-
                     return (
                         <div 
                             onClick={() => toggleCollection(collection.id)} 
@@ -68,7 +106,7 @@ export function AddToCollectionContent({photo, onClose}) {
                                 </div>
 
                                 <div className="pr-2 hover:scale-110" title="Adicionar a coleção">
-                                    {isSelect ? <i className="bi bi-plus-lg text-lg text-white"></i>     :  <i className="bi bi-check-lg text-lg text-black"></i>}
+                                    {isSelect ? <i className="bi bi-check-lg text-lg text-white"></i> :  ""}
                                 </div>
                             </div>
                         </div>
@@ -76,11 +114,17 @@ export function AddToCollectionContent({photo, onClose}) {
                 })}
             </div>
 
+         {!showNewCollection ? (
             <div className="flex justify-center pt-4">
-                <button className="flex justify-center items-center gap-2 rounded py-1 font-destaque border w-full border-gray-300 cursor-pointer hover:bg-gray-100">
-                    <p className="text-center font-medium">Criar nova coleção</p>
-                </button>
-            </div>
+                <Button className="flex justify-center items-center gap-2 rounded text-center font-medium py-1 font-destaque border w-full border-gray-300 cursor-pointer hover:bg-gray-100" text={"Criar nova coleção"} onClick={() => setShowNewCollection(true)}/>
+            </div>)
+            :
+             (<form className="flex justify-between" onSubmit={createCollection}>
+                <Input placeholder={"Nome da coleção"} required autoFocus className={"bg-gray-100 p-2 border mr-6 border-gray-900 rounded-lg w-40"} onChange={(e) => setSearch(e.target.value)}/>
+                <Button text={"Criar"} className={"p-2 bg-black hover:bg-black/77 text-white rounded-lg px-6 cursor-pointer"} />
+                <Button text={"Cancelar"} className={"p-2 border-gray-400 hover:bg-gray-200 border rounded-lg px-5 cursor-pointer"} onClick={() => setShowNewCollection(false)}/>
+             </form>)
+        }
         </div>
     );
 }
