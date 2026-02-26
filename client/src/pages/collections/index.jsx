@@ -1,6 +1,15 @@
 import MainLayout from "../../layouts/MainLayout";
 import CollectionsGrid from "../../features/collections/components/CollectionGrid";
+import Button from "../../components/Button";
+import { Modal } from "../../components/Modal";
+import {useState} from "react"
+import CreateCardCollection from "../../features/collections/components/CreateCardCollection";
 function Collection() {
+    const [show, setShow] = useState(false);
+
+    const disableShow = () => {
+        setShow(false);
+    }
     return (
         <>
             <MainLayout>
@@ -8,9 +17,11 @@ function Collection() {
 
                     <div className="text-center mb-12">
                         <h1 className="text-4xl font-bold text-gray-900 mb-4">Suas Coleções</h1>
-                        <p className="text-gray-500 max-w-lg mx-auto">
-                            Explore o mundo através de coleções de belas fotos selecionadas pela nossa comunidade.
-                        </p>
+
+                        <Button icon={<i className="bi bi-plus-lg"> </i>} text={`Criar nova coleção`} className={"p-2 bg-black text-white  hover:bg-black/75 border rounded-lg px-5 cursor-pointer mt-2"} onClick={() => setShow(!show)}/>
+                        <Modal isOpen={show} onClose={disableShow} sizeModal= "h-55" itemsAlign={"items-center"}>
+                            <CreateCardCollection onClose={disableShow}></CreateCardCollection>
+                        </Modal>
                     </div>
 
                     <CollectionsGrid />
