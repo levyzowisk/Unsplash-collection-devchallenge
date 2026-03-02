@@ -7,16 +7,16 @@
  * @returns {React.ReactElement}
  */
 
-export function Modal ({isOpen, onClose, children}) {
+export function Modal ({isOpen, onClose, children, sizeModal, itemsAlign }) {
     if (!isOpen) return null;
 
     return (
         <div 
         onClick={onClose}
-        className="fixed inset-0 z-50 flex flex-items justify-center bg-black/60 backdrop-blur-sm transition-opacity">
+        className={`fixed inset-0 z-50 flex flex-items justify-center ${itemsAlign} bg-black/60 backdrop-blur-[1px] transition-opacity`}>
             <div 
             onClick={(e) => e.stopPropagation()}                        
-            className="relative bg-white rounded-2xl w-full max-w-md m-4 p-6 animate-fade-in-up">
+            className={`relative bg-white rounded-2xl w-full ${sizeModal} max-w-md m-4 p-6 animate-fade-in-up`}>
 
           <button 
           onClick={onClose}

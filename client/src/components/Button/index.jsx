@@ -1,6 +1,6 @@
-function Button ({text, ...props}) {
+function Button ({text, icon, ...props}) {
     return (
-        <button {...props}> {text} </button>
+        <button {...props}>{icon}  {text} </button>
     );
 }
 
