@@ -25,7 +25,7 @@ function Collection() {
                     </div>
 
                     <CollectionsGrid />
-
+                
                 </div>
             </MainLayout>
         </>
