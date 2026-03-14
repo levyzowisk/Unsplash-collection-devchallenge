@@ -23,8 +23,8 @@ export default function CollectionCard({ data }) {
                 />
 
             <div >
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 opacity-0 z-50 group-hover:opacity-100 transition-opacity" onClick={() => setShow(true)}>
-                <div className="absolute right-2 rounded bg-red-600 text-white px-2 py-1 top-2 cursor-pointer" >
+            <div className="absolute top-1 right-1 bg-black/10 group-hover:bg-black/20 opacity-0 z-50 group-hover:opacity-100 transition-opacity cursor-pointer" onClick={() => setShow(true)}>
+                <div className="absolute right-2 rounded bg-red-600 text-white px-2 py-1 top-2" >
                     <i class="bi bi-trash"></i>
                 </div>
             </div>
