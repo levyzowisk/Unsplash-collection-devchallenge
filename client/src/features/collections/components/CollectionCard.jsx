@@ -4,13 +4,15 @@ import { useState } from 'react';
 import DeleteCardCollection from './DeleteCardCollection';
 import Button from '../../../components/Button';
 export default function CollectionCard({ data }) {
-    console.log(data);
     
     const [show, setShow] = useState(false);
+    console.log(data);
+    
 
     const disableShow = () => {
         setShow(false);
     }
+    
     return (
         <>
         <div className='block group transition-transform duration-400 hover:scale-102 overflow-hidden hover:shadow-sm
@@ -20,11 +22,11 @@ export default function CollectionCard({ data }) {
                     
             </div>
 
-         <Link to={`/collection/${data.id}?title=${encodeURIComponent(data.title)}`} className='block group transition-transform duration-400 hover:scale-102 overflow-hidden  hover:bg-gray-100 rounded-xl pb-2 bg-gray-50'>
+         <Link to={`/collection/${data.id}?title=${encodeURIComponent(data.name)}`} className='block group transition-transform duration-400 hover:scale-102 overflow-hidden  hover:bg-gray-100 rounded-xl pb-2 bg-gray-50'>
             <div className="relative h-60 w-full  rounded-xl bg-gray-200">
                 <img
                     src={data.cover_photo}
-                    alt={data.title}
+                    alt={data.name}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-101"
                 />
 
@@ -37,10 +39,10 @@ export default function CollectionCard({ data }) {
             {/* 2. Informações (Título e total) */}
             <div className="mt-3 p-2">
                 <h3 className="text-lg font-bold text-gray-900  transition-colors">
-                    {data.title}
+                    {data.name}
                 </h3>
                 <p className="text-sm text-gray-500">
-                    {data.total_photos} photos
+                    {data.totalImages} photos
                 </p>
             </div>
 
