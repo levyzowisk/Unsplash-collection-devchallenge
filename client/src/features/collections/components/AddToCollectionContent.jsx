@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 import Input from "../../../components/Input";
-import { useCollections } from "../hooks/useCollections";
+import { hookCollections } from "../hooks/hookCollections";
 import Button from "../../../components/Button";
 import {toast} from 'react-toastify';
 
@@ -14,7 +14,7 @@ export function AddToCollectionContent({photo, onClose}) {
     const textoFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1).replaceAll('-', ' ');
     
     const [selectedIds, setSelectedIds] = useState([]);
-    const {collections, loading, initialSelectedIds, newCollection} = useCollections();
+    const {collections, loading, initialSelectedIds, newCollection} = hookCollections();
     
     useEffect(() => {
             setSelectedIds(initialSelectedIds);

@@ -1,11 +1,11 @@
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
-import { useCollections } from '../hooks/useCollections';
+import { hookCollections } from '../hooks/hookCollections';
 import {useState} from 'react';
 import {toast} from 'react-toastify'
 
 export default function CreateCardCollection({onClose}) {
-    const {newCollection} = useCollections();
+    const {newCollection} = hookCollections();
     const [collection, setCollection] = useState();
 
     const createCollection = (e) => {

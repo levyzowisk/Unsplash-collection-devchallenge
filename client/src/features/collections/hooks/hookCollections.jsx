@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { collectionService } from "../service/collectionService";
+
 
 const MOCK_COLLECTIONS = [
   {
@@ -24,10 +26,12 @@ const MOCK_COLLECTIONS = [
   }
 ];
 
-export const useCollections = (photoId = null) => {
+
+export const  hookCollections = (photoId = null) => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialSelectedIds, setInitialSelectedIds] = useState([]);
+  const [error, setError] = useState(null);
 
   const newCollection = (collection) => {
     setCollections(prev => ([
@@ -36,17 +40,29 @@ export const useCollections = (photoId = null) => {
     ]))
   }
 
+
   useEffect(() => {
-    setTimeout(() => {
-      setCollections(MOCK_COLLECTIONS);
-      const preSelectedIds = MOCK_COLLECTIONS
-        .filter(c => c.contains_photo)
-        .map(c => c.id);
-      
-      setInitialSelectedIds(preSelectedIds);
-      setLoading(false);
-    }, 500);
+    const loadData = async () => {
+      try {
+        const data = await collectionService();
+        setCollections(data);
+        
+        if (Array.isArray(data)) {
+            const preSelectedIds = data
+              .filter(c => c.contains_photo)
+              .map(c => c.id);
+            setInitialSelectedIds(preSelectedIds);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar coleções:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
-  return { collections, loading, initialSelectedIds, newCollection };
+  return { collections, loading, initialSelectedIds, newCollection, error };
 };
