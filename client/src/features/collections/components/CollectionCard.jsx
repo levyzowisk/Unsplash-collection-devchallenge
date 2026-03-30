@@ -3,7 +3,7 @@ import { Modal } from '../../../components/Modal';
 import { useState } from 'react';
 import DeleteCardCollection from './DeleteCardCollection';
 import Button from '../../../components/Button';
-export default function CollectionCard({ data }) {
+export default function CollectionCard({ data, onSuccess }) {
     
     const [show, setShow] = useState(false);
     
@@ -11,7 +11,8 @@ export default function CollectionCard({ data }) {
     const disableShow = () => {
         setShow(false);
     }
-    
+
+
     return (
         <>
         <div className='block group transition-transform duration-400 hover:scale-102 overflow-hidden hover:shadow-sm
@@ -49,7 +50,7 @@ export default function CollectionCard({ data }) {
         </div>
 
             <Modal onClose={disableShow} isOpen={show} sizeModal= "h-55" itemsAlign={"items-center"}>
-                <DeleteCardCollection onClose={disableShow} collectionTitle={data.title} />
+                <DeleteCardCollection onClose={disableShow} onSucess={onSuccess} collectionTitle={data.title}  id={data.id}/>
             </Modal>
         </>
     )
