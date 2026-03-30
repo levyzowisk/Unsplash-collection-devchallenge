@@ -54,7 +54,7 @@ export const  hookCollections = (refreshTrigger = 0) => {
     };
 
     loadData();
-  }, [refreshTrigger]); // <-- O React vai rodar o loadData novamente sempre que essa variável mudar!
+  }, [refreshTrigger]); 
 
   return { collections, loading, initialSelectedIds, error };
 };

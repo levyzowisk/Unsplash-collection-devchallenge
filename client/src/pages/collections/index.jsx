@@ -31,7 +31,7 @@ function Collection() {
                         </Modal>
                     </div>
 
-                    <CollectionsGrid refreshTrigger={refreshTrigger} />
+                    <CollectionsGrid refreshTrigger={refreshTrigger} onSuccess={handleSuccess} />
                 
                 </div>
             </MainLayout>

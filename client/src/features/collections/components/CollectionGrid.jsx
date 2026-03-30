@@ -1,8 +1,7 @@
 import {hookCollections } from "../hooks/hookCollections";
 import CollectionCard from "./CollectionCard";
 
-export default function CollectionsGrid ({ refreshTrigger }) {
-    // Passamos a variável pro Hook perceber as mudanças
+export default function CollectionsGrid ({ refreshTrigger, onSuccess }) {
     const {collections, loading, error} = hookCollections(refreshTrigger);
 
     if(loading) return <div className="text-center py-10">Carregando coleções...</div>;
@@ -17,7 +16,7 @@ export default function CollectionsGrid ({ refreshTrigger }) {
     return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {collections.map((collection) => (
-            <CollectionCard key={collection.id} data={collection} />
+            <CollectionCard key={collection.id} data={collection}  onSuccess={onSuccess} />
         ))}
     </div>
     );
