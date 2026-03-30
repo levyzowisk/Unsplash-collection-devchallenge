@@ -6,7 +6,6 @@ import Button from '../../../components/Button';
 export default function CollectionCard({ data }) {
     
     const [show, setShow] = useState(false);
-    console.log(data);
     
 
     const disableShow = () => {
@@ -18,7 +17,7 @@ export default function CollectionCard({ data }) {
         <div className='block group transition-transform duration-400 hover:scale-102 overflow-hidden hover:shadow-sm
           shadow-xs hover:bg-gray-100 rounded-xl pb-2 bg-gray-50'>
             <div className="absolute top-1 right-1 bg-black/10 group-hover:bg-black/20 opacity-0 z-50 group-hover:opacity-100 transition-opacity" >
-                <Button className="cursor-pointer absolute right-2 rounded bg-red-600 text-white px-2 py-1 top-2" icon={<i class="bi bi-trash"></i>} onClick={() => setShow(true)} />
+                <Button className="cursor-pointer absolute right-2 rounded bg-red-600 text-white px-2 py-1 top-2" icon={<i className="bi bi-trash"></i>} onClick={() => setShow(true)} />
                     
             </div>
 

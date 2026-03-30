@@ -27,24 +27,16 @@ const MOCK_COLLECTIONS = [
 ];
 
 
-export const  hookCollections = (photoId = null) => {
+export const  hookCollections = (refreshTrigger = 0) => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialSelectedIds, setInitialSelectedIds] = useState([]);
   const [error, setError] = useState(null);
 
-  const newCollection = (collection) => {
-    setCollections(prev => ([
-      ...prev,
-      collection
-    ]))
-  }
-
-
   useEffect(() => {
     const loadData = async () => {
       try {
-        const data = await collectionService();
+        const data = await collectionService("collections");
         setCollections(data);
         
         if (Array.isArray(data)) {
@@ -62,7 +54,7 @@ export const  hookCollections = (photoId = null) => {
     };
 
     loadData();
-  }, []);
+  }, [refreshTrigger]); // <-- O React vai rodar o loadData novamente sempre que essa variável mudar!
 
-  return { collections, loading, initialSelectedIds, newCollection, error };
+  return { collections, loading, initialSelectedIds, error };
 };
