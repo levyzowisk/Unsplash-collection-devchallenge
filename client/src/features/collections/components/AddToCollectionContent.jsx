@@ -1,10 +1,11 @@
 
 import { useState, useEffect } from "react";
-
+import { listCollection } from "../hooks/listCollectionWithPhoto";
 import Input from "../../../components/Input";
-import { hookCollections } from "../hooks/hookCollections";
 import Button from "../../../components/Button";
 import {toast} from 'react-toastify';
+import removeImageCollection from "../hooks/removeImageCollection";
+import { addImageCollection } from "../hooks/addImageCollection";
 
 export function AddToCollectionContent({photo, onClose}) {
     
@@ -12,26 +13,25 @@ export function AddToCollectionContent({photo, onClose}) {
     const ultimoTraco = (texto.lastIndexOf('-'));
     const textoLimpo = texto.substring(0, ultimoTraco);
     const textoFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1).replaceAll('-', ' ');
-    
+            
     const [selectedIds, setSelectedIds] = useState([]);
-    const {collections, loading, initialSelectedIds, newCollection} = hookCollections();
+    const {collections, initialSelectedIds, loading} = listCollection(photo.id);
+    console.log(collections);
+    
     
     useEffect(() => {
             setSelectedIds(initialSelectedIds);
             console.log(selectedIds);
             
     }, [initialSelectedIds]);
-    useEffect(() => {
-        console.log(selectedIds);
-        
-    }, [selectedIds])
-    
+ 
     const toggleCollection = async (collectionId) => {
         const isAlreadySelected = selectedIds.includes(collectionId);
 
         let newIds;
         if(isAlreadySelected) {
             newIds = selectedIds.filter(id => id !== collectionId);
+            await removeImageCollection(collectionId, photo.id);
             toast.warn("Removida da coleção", {
                 theme: "colored",
                 hideProgressBar: "true",
@@ -41,6 +41,7 @@ export function AddToCollectionContent({photo, onClose}) {
 
         } else {
             newIds = [...selectedIds, collectionId];
+            await addImageCollection(collectionId, photo.user.first_name, photo.urls.regular, photo.id);
             toast.success("Adiconada a coleção",{
                 theme: "colored",
                 hideProgressBar: "true",
@@ -101,8 +102,8 @@ export function AddToCollectionContent({photo, onClose}) {
                             <img src={collection.cover_photo} alt="" className="h-10 rounded shadow-lg transition-colors hover:shadow-xl"/>
                             <div className="flex justify-between items-center w-full pl-2">
                                 <div>
-                                    <h4 className={`font-destaque font-medium text-[15px] ${isSelect ? 'text-white' : ' text-black'}`} >{collection.title}</h4>
-                                    <p className={`text-[12px] ${isSelect ? 'text-white' : 'text-gray-500'}`}>{collection.total_photos} fotos</p>
+                                    <h4 className={`font-destaque font-medium text-[15px] ${isSelect ? 'text-white' : ' text-black'}`} >{collection.name}</h4>
+                                    <p className={`text-[12px] ${isSelect ? 'text-white' : 'text-gray-500'}`}>{collection.totalImages} fotos</p>
                                 </div>
 
                                 <div className="pr-2 hover:scale-110" title="Adicionar a coleção">

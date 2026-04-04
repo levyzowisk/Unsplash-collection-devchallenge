@@ -14,7 +14,7 @@ function Collection() {
 
     const handleSuccess = () => {
         setShow(false);
-        setRefreshTrigger(prev => prev + 1); // Avisa a Grid que um novo item chegou!
+        setRefreshTrigger(prev => prev + 1); 
     }
 
     return (

@@ -50,7 +50,7 @@ export default function CollectionCard({ data, onSuccess }) {
         </div>
 
             <Modal onClose={disableShow} isOpen={show} sizeModal= "h-55" itemsAlign={"items-center"}>
-                <DeleteCardCollection onClose={disableShow} onSucess={onSuccess} collectionTitle={data.title}  id={data.id}/>
+                <DeleteCardCollection onClose={disableShow} onSuccess={onSuccess} collectionTitle={data.title}  id={data.id}/>
             </Modal>
         </>
     )
