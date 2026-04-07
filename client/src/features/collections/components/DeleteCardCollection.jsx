@@ -1,11 +1,14 @@
 import Button from "../../../components/Button";
 import { deleteCollection } from "../hooks/deleteCollection";
 
-export default function DeleteCardCollection({collectionTitle, onClose, id, onSucess}) {
+export default function DeleteCardCollection({collectionTitle, onClose, id, onSuccess}) {
     
     const confirmDelete = async () =>  {
         await deleteCollection(id);
-        onSucess();
+        
+        if (onSuccess) {
+            onSuccess();
+        }
         onClose();
     }
 

@@ -5,25 +5,42 @@ import { useNavigate } from 'react-router';
 import { usePhotos } from '../../features/search/hooks/usePhotos';
 import CardEdit from '../../features/collections/components/CardEdit';
 import { Modal } from '../../components/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DeleteCardCollection from '../../features/collections/components/DeleteCardCollection';
 import Input from '../../components/Input';
+import { listImagesCollection } from '../../features/collections/hooks/listImagesCollection';
+import { editCollection } from '../../features/collections/hooks/editCollection';
 
 function CollectionDetail() {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
     const title = searchParams.get('title');
-
     const [showEditNameCollection, setShowEditNameCollection] = useState(false);
 
     const navigate = useNavigate();
 
-    const { photos, loading } = usePhotos();
+  
+    
+    const  {images, loading, error} = listImagesCollection(id);
 
     const [show, setShow] = useState(false);
 
     const disableShow = () => {
         setShow(false);
+    }
+
+    const [nameCollection, setNameCollection] = useState("")
+
+    const confirmEditNameCollection =  (e) => {
+        e.preventDefault();
+         editCollection(id, nameCollection);
+        setShowEditNameCollection(false);
+        navigate(`/collection/${id}?title=${nameCollection}`);
+    }
+
+    const inputChange = (e) => {
+        setNameCollection(e.target.value);
+        
     }
 
 
@@ -47,8 +64,8 @@ function CollectionDetail() {
                             </>
 
                         ) : (
-                        <form className="flex justify-between" onSubmit={""}>
-                            <Input placeholder={"Nome da coleção"} required autoFocus className={"bg-gray-100 p-2 border mr-6 border-gray-900 rounded-lg w-100"} onChange={(e) => "setSearch(e.target.value)"} />
+                        <form className="flex justify-between" onSubmit={confirmEditNameCollection}>
+                            <Input placeholder={"Nome da coleção"} required autoFocus className={"bg-gray-100 p-2 border mr-6 border-gray-900 rounded-lg w-100"} onChange={inputChange} />
                                 <Button icon={<i class="bi bi-check-lg"></i>} className={"p-2 text-black hover:bg-gray-100 rounded-lg px-4 cursor-pointer"} />
                                 <Button icon={<i class="bi bi-x-lg"></i>} className={"p-2  hover:bg-gray-200  rounded-lg px-5 cursor-pointer"} onClick={() => setShowEditNameCollection(false)} />
                         </form>
@@ -61,10 +78,10 @@ function CollectionDetail() {
                     <Button className="cursor-pointer right-2 rounded bg-red-500 hover:bg-red-700 text-white px-2 py-1 top-2" icon={<i class="bi bi-trash"></i>} text={"Deletar coleção"} onClick={() => setShow(true)} />
                 </div>
                 {/* E caso a coleção não tenha fotos, como proseguir, implementar o else. */}
-                {photos ? <CardEdit photos={photos} /> : "oisom"}
+                {images ? <CardEdit photos={images} /> : "Nenhuma foto encontrada"}
             </div>
             <Modal onClose={disableShow} isOpen={show} sizeModal="h-50" itemsAlign={"items-center"} >
-                <DeleteCardCollection onClose={disableShow} collectionTitle={title} />
+                <DeleteCardCollection onClose={disableShow} collectionTitle={title} id={id} onSuccess={() => navigate('/collection')} />
             </Modal>
 
         </MainLayout>

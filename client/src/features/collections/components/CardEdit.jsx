@@ -1,11 +1,12 @@
 import Button from "../../../components/Button";
 import { useState } from "react";
 import { Modal } from "../../../components/Modal";
-import DeleteCardCollection from "./DeleteCardCollection";
 import DeleteImageCollection from "./DeleteImageCollection";
 
 function CardEdit({photos}) {
+    
     console.log(photos);
+    
     const [show, setShow] = useState(false);
     
     const disableShow = () => {
@@ -22,8 +23,8 @@ function CardEdit({photos}) {
                 return (
                     <div key={photo.id} className="break-inside-avoid relative group mb-4">
                         <img 
-                            src={photo.urls.regular} 
-                            alt={photo.alt_description} 
+                            src={photo.url} 
+                            alt={"photo"} 
                             className="w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
                         />
                         
@@ -34,13 +35,13 @@ function CardEdit({photos}) {
                             </div>
                             <div className="absolute bottom-4 left-4 text-white flex items-center gap-2">
                                 <img 
-                                    src={photo.user.profile_image.small}
-                                    alt={photo.user.name}
+                                    src={photo.url}
+                                    alt={photo.photographerName}
                                     className="w-8 h-8 rounded-full border border-white/50"
                                 />
                                 <div className="text-sm">
-                                    <p className="font-medium leading-tight">{photo.user.name}</p>
-                                    <p className="text-xs text-gray-200 opacity-80">{photo.likes} likes</p>
+                                    <p className="font-medium leading-tight">{photo.photographerName}</p>
+                                    {/* <p className="text-xs text-gray-200 opacity-80">{"1"} likes</p> */}
                                 </div>
                             </div>
                         </div>

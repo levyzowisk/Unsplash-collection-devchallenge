@@ -1,8 +1,9 @@
-import {hookCollections } from "../hooks/hookCollections";
+import { listCollection } from "../hooks/listCollection";
 import CollectionCard from "./CollectionCard";
 
 export default function CollectionsGrid ({ refreshTrigger, onSuccess }) {
-    const {collections, loading, error} = hookCollections(refreshTrigger);
+    
+    const {collections, loading, error} = listCollection(refreshTrigger);
 
     if(loading) return <div className="text-center py-10">Carregando coleções...</div>;
 

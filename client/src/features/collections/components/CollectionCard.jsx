@@ -3,6 +3,7 @@ import { Modal } from '../../../components/Modal';
 import { useState } from 'react';
 import DeleteCardCollection from './DeleteCardCollection';
 import Button from '../../../components/Button';
+import logo from '../../../assets/logo1.png';
 export default function CollectionCard({ data, onSuccess }) {
     
     const [show, setShow] = useState(false);
@@ -25,7 +26,7 @@ export default function CollectionCard({ data, onSuccess }) {
          <Link to={`/collection/${data.id}?title=${encodeURIComponent(data.name)}`} className='block group transition-transform duration-400 hover:scale-102 overflow-hidden  hover:bg-gray-100 rounded-xl pb-2 bg-gray-50'>
             <div className="relative h-60 w-full  rounded-xl bg-gray-200">
                 <img
-                    src={data.cover_photo}
+                    src={data.photo || logo }
                     alt={data.name}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-101"
                 />
@@ -50,7 +51,7 @@ export default function CollectionCard({ data, onSuccess }) {
         </div>
 
             <Modal onClose={disableShow} isOpen={show} sizeModal= "h-55" itemsAlign={"items-center"}>
-                <DeleteCardCollection onClose={disableShow} onSucess={onSuccess} collectionTitle={data.title}  id={data.id}/>
+                <DeleteCardCollection onClose={disableShow} onSuccess={onSuccess} collectionTitle={data.title}  id={data.id}/>
             </Modal>
         </>
     )
