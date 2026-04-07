@@ -13,20 +13,36 @@ export function AddToCollectionContent({photo, onClose}) {
     const ultimoTraco = (texto.lastIndexOf('-'));
     const textoLimpo = texto.substring(0, ultimoTraco);
     const textoFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1).replaceAll('-', ' ');
-            
+    const [collectionsData, setCollectionsData] = useState([]);
+
     const [selectedIds, setSelectedIds] = useState([]);
     const {collections, initialSelectedIds, loading} = listCollection(photo.id);
-    console.log(collections);
     
     
     useEffect(() => {
             setSelectedIds(initialSelectedIds);
-            console.log(selectedIds);
-            
+            setCollectionsData(collections);
+
     }, [initialSelectedIds]);
+
+    console.log(collectionsData);
+    
  
     const toggleCollection = async (collectionId) => {
         const isAlreadySelected = selectedIds.includes(collectionId);
+
+        setCollectionsData((prev) => {
+            return prev.map((collection) => {
+                if(collection.id === collectionId) {
+                    return {
+                        ...collection,
+                        totalImages: isAlreadySelected ? collection.totalImages - 1 : collection.totalImages + 1,
+                    }
+                }
+                return collection;
+
+            })
+        })
 
         let newIds;
         if(isAlreadySelected) {
@@ -51,7 +67,6 @@ export function AddToCollectionContent({photo, onClose}) {
         }
 
         setSelectedIds(newIds);
-        console.log(selectedIds);
         
     }
 
@@ -91,7 +106,7 @@ export function AddToCollectionContent({photo, onClose}) {
                 </form>
             </div>
             <div className="pt-5 flex flex-col gap-1 flex-1">
-                {collections.map((collection) => {
+                {collectionsData.map((collection) => {
                     const isSelect = selectedIds.includes(collection.id);
                     
                     return (
