@@ -6,6 +6,7 @@ import Button from "../../../components/Button";
 import {toast} from 'react-toastify';
 import removeImageCollection from "../hooks/removeImageCollection";
 import { addImageCollection } from "../hooks/addImageCollection";
+import { createCollection } from "../hooks/createCollection";
 
 export function AddToCollectionContent({photo, onClose}) {
     
@@ -14,16 +15,17 @@ export function AddToCollectionContent({photo, onClose}) {
     const textoLimpo = texto.substring(0, ultimoTraco);
     const textoFormatado = textoLimpo.charAt(0).toUpperCase() + textoLimpo.slice(1).replaceAll('-', ' ');
     const [collectionsData, setCollectionsData] = useState([]);
+    const [search, setSearch] = useState("");
 
     const [selectedIds, setSelectedIds] = useState([]);
-    const {collections, initialSelectedIds, loading} = listCollection(photo.id);
+    const {collections, initialSelectedIds, loading, loadData} = listCollection(photo.id);
     
     
     useEffect(() => {
             setSelectedIds(initialSelectedIds);
             setCollectionsData(collections);
 
-    }, [initialSelectedIds]);
+    }, [initialSelectedIds, collections]);
 
     console.log(collectionsData);
     
@@ -72,19 +74,14 @@ export function AddToCollectionContent({photo, onClose}) {
 
     const [showNewCollection, setShowNewCollection] = useState(false);
     
-    const [search, setSearch] = useState("");
 
-    const createCollection = (e) => {
+    const createdCollection = async (e) => {
         e.preventDefault();
-        newCollection({
-            title: search,
-            total_photos: 10, 
-            cover_photo: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400&h=300&fit=crop",
-            contains_photo: false,
-        })
+        await createCollection({name: search});
         setShowNewCollection(false);
         toast.success("Coleção criada");
         setSearch("");
+        loadData();
     };
     
     if(loading) return <div>Carregando coleções...</div>;
@@ -135,7 +132,7 @@ export function AddToCollectionContent({photo, onClose}) {
                 <Button className="flex justify-center items-center gap-2 rounded text-center font-medium py-1 font-destaque border w-full border-gray-300 cursor-pointer hover:bg-gray-100" text={"Criar nova coleção"} onClick={() => setShowNewCollection(true)}/>
             </div>)
             :
-             (<form className="flex justify-between" onSubmit={createCollection}>
+             (<form className="flex justify-between" onSubmit={createdCollection}>
                 <Input placeholder={"Nome da coleção"} required autoFocus className={"bg-gray-100 p-2 border mr-6 border-gray-900 rounded-lg w-40"} onChange={(e) => setSearch(e.target.value)}/>
                 <Button text={"Criar"} className={"p-2 bg-black hover:bg-black/77 text-white rounded-lg px-6 cursor-pointer"} />
                 <Button text={"Cancelar"} className={"p-2 border-gray-400 hover:bg-gray-200 border rounded-lg px-5 cursor-pointer"} onClick={() => setShowNewCollection(false)}/>

@@ -8,6 +8,7 @@ export  function listCollection(idImage) {
     const [error, setError] = useState(null);
 
      const loadData = async () => {
+        setLoading(true); 
          try {
          
              const data =  await collectionService(`collections?idImage=${idImage}`, {
@@ -36,5 +37,5 @@ export  function listCollection(idImage) {
     }, [idImage]);
     
     
-    return {collections, initialSelectedIds, loading, error};
+    return {collections, initialSelectedIds, loading, error, loadData};
 }
