@@ -21,7 +21,7 @@ function CollectionDetail() {
 
   
     
-    const  {images, loading, error} = listImagesCollection(id);
+    const  {images, loading, error, loadData} = listImagesCollection(id);
 
     const [show, setShow] = useState(false);
 
@@ -78,7 +78,7 @@ function CollectionDetail() {
                     <Button className="cursor-pointer right-2 rounded bg-red-500 hover:bg-red-700 text-white px-2 py-1 top-2" icon={<i class="bi bi-trash"></i>} text={"Deletar coleção"} onClick={() => setShow(true)} />
                 </div>
                 {/* E caso a coleção não tenha fotos, como proseguir, implementar o else. */}
-                {images ? <CardEdit photos={images} /> : "Nenhuma foto encontrada"}
+                {images ? <CardEdit loadData={loadData} photos={images} idCollection={id}/> : "Nenhuma foto encontrada"}
             </div>
             <Modal onClose={disableShow} isOpen={show} sizeModal="h-50" itemsAlign={"items-center"} >
                 <DeleteCardCollection onClose={disableShow} collectionTitle={title} id={id} onSuccess={() => navigate('/collection')} />

@@ -6,7 +6,7 @@ export function listImagesCollection(idCollection) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadData = async () => {
+  const loadData = async (idCollection) => {
     try {
       const data = await collectionService(
         `collections/${idCollection}/images`,
@@ -29,8 +29,8 @@ export function listImagesCollection(idCollection) {
   };
 
   useEffect(() => {
-    loadData();
+    loadData(idCollection);
   }, [idCollection]);
 
-  return { images, loading, error };
+  return { images, loading, error, loadData };
 }

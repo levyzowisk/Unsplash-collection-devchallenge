@@ -2,16 +2,31 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import { Modal } from "../../../components/Modal";
 import DeleteImageCollection from "./DeleteImageCollection";
+import removeImageCollection from "../hooks/removeImageCollection";
 
-function CardEdit({photos}) {
-    
-    console.log(photos);
+function CardEdit({photos, idCollection, loadData}) {
     
     const [show, setShow] = useState(false);
+    const [id, setId] = useState(null);
+    console.log(loadData);
     
+
+    const ableShow = (id) => {
+        setShow(true);
+        setId(id);
+    }
     const disableShow = () => {
+        setId(null);
         setShow(false);
     }
+
+    const deleteImage = async () => {
+        await removeImageCollection(idCollection, id);
+        disableShow();
+        loadData(idCollection)
+    }
+
+    
     return (
         <>
     <section className="px-4  max-w-[1200px] mx-auto">
@@ -30,7 +45,7 @@ function CardEdit({photos}) {
                         
                         <div className={`absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl group-hover:scale-105`}>
                             <div className="absolute top-4 right-4 z-50 flex flex-row gap-2">
-                                <Button className="cursor-pointer absolute right-1 rounded bg-red-600 text-white px-2 py-1 top-1" icon={<i class="bi bi-trash"></i>} onClick={() => setShow(true)} />
+                                <Button className="cursor-pointer absolute right-1 rounded bg-red-600 text-white px-2 py-1 top-1" icon={<i class="bi bi-trash"></i>} onClick={() => ableShow(photo.idImage)} />
 
                             </div>
                             <div className="absolute bottom-4 left-4 text-white flex items-center gap-2">
@@ -54,7 +69,7 @@ function CardEdit({photos}) {
 
     </section>
             <Modal onClose={disableShow} isOpen={show} sizeModal= "h-50" itemsAlign={"items-center"}>
-                <DeleteImageCollection onClose={disableShow}/>
+                <DeleteImageCollection onClose={disableShow} onDelete={deleteImage}/>
             </Modal>
 </>
     );
