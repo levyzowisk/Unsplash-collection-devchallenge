@@ -18,7 +18,7 @@ export function AddToCollectionContent({photo, onClose}) {
     const [search, setSearch] = useState("");
 
     const [selectedIds, setSelectedIds] = useState([]);
-    const {collections, initialSelectedIds, loading, loadData} = listCollection(photo.id);
+    const {collections, initialSelectedIds, loading, loadData, error} = listCollection(photo.id);
     
     
     useEffect(() => {
@@ -86,6 +86,8 @@ export function AddToCollectionContent({photo, onClose}) {
     
     if(loading) return <div>Carregando coleções...</div>;
     
+    if(error) return <div>Erro ao carregar coleções</div>;
+
     return (
         <div className="flex flex-col h-full">
             <h1 className="font-destaque font-semibold text-xl pb-2">Adicionar à coleção</h1>
@@ -102,8 +104,11 @@ export function AddToCollectionContent({photo, onClose}) {
                     <Input placeholder={"Digite uma palavra chave..."} value={''} onChange={''} className="bg-gray-100 p-3 rounded-lg w-full pl-10"/>
                 </form>
             </div>
-            <div className="pt-5 flex flex-col gap-1 flex-1">
-                {collectionsData.map((collection) => {
+            <div className="pt-5 flex flex-col gap-1 flex-1 overflow-y-auto overscroll-contain">
+                {
+                    collectionsData.length == 0 ? (
+                        <div className="text-center text-gray-500 mt-10">Nenhuma coleção encontrada</div>
+                    ) : collectionsData.map((collection) => {
                     const isSelect = selectedIds.includes(collection.id);
                     
                     return (
@@ -124,7 +129,8 @@ export function AddToCollectionContent({photo, onClose}) {
                             </div>
                         </div>
                     )
-                })}
+                }) 
+                }
             </div>
 
          {!showNewCollection ? (

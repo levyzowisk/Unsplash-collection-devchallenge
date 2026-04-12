@@ -13,7 +13,7 @@ export function Modal ({isOpen, onClose, children, sizeModal, itemsAlign }) {
     return (
         <div 
         onClick={onClose}
-        className={`fixed inset-0 z-50 flex flex-items justify-center ${itemsAlign} bg-black/60 backdrop-blur-[1px] transition-opacity`}>
+        className={`fixed inset-0 z-50 flex flex-items justify-center ${itemsAlign} bg-black/60 backdrop-blur-[1px] transition-opacity overflow-y-auto overscroll-none`}>
             <div 
             onClick={(e) => e.stopPropagation()}                        
             className={`relative bg-white rounded-2xl w-full ${sizeModal} max-w-md m-4 p-6 animate-fade-in-up`}>
