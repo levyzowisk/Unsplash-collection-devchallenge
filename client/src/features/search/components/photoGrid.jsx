@@ -26,8 +26,8 @@ const PhotoGrid = ({ query, collectionId }) => {
   if (loading) return <div className="text-center mt-10">Carregando fotos...</div>;
 
   return (
-    <section className="px-4 py-8 max-w-[1200px] mx-auto">
-      <div className="columns-2 md:columns-3 gap-4 space-y-4">
+    <section className="px-4 py-8 max-w-[1200px] mx-auto ">
+      <div className="columns-2 md:columns-3 gap-4 space-y-4 ">
         
         {photos.map((photo) => {
           return (
